@@ -9,7 +9,6 @@ https://www5.epsondevice.com/ja/products/rtc/rx8035sa.html
 + https://support.epson.biz/td/api/doc_check.php?dl=app_RX-8035SA
 
 ## sample code
-LCD と RTC を使う場合の例
 
 ```ruby
 #I2C 初期化
