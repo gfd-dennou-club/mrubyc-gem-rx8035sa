@@ -1,16 +1,20 @@
 # coding: utf-8
 
 #I2C 初期化
-i2c = I2C.new(22, 21)
+i2c = I2C.new()
 
-# RTC 初期化. 時刻設定
+## RTC 初期化. 時刻設定
 rtc = RX8035SA.new(i2c)
-rtc.write([20, 3, 31, 1, 23, 59, 50]) #年(下2桁), 月, 日, 曜日, 時, 分, 秒
 
+# RTC に初期値書き込み
+rtc.write([20, 3, 31, 1, 23, 59, 40]) #年(下2桁), 月, 日, 曜日, 時, 分, 秒
+
+# 適当な時間を表示
 while true
-  tt = rtc.read
-  puts sprintf("%02d-%02d-%02d", tt[0], tt[1], tt[2])
-  puts sprintf("%02d:%02d:%02d", tt[4], tt[5], tt[6])
-  puts ""
-  sleep 1.0
+  rtc.read  #時刻の読み出し
+  t0 = sprintf("%02d-%02d-%02d", rtc.year - 2000, rtc.mon, rtc.mday)
+  t1 = sprintf("%02d:%02d:%02d", rtc.hour, rtc.min, rtc.sec)
+
+  puts sprintf("#{t0} #{rtc.wday} #{t1}")
+  sleep 1
 end

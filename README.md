@@ -18,7 +18,7 @@ i2c = I2C.new()
 rtc = RX8035SA.new(i2c)
 
 # RTC に初期値書き込み
-rtc.write([20, 3, 31, 1, 23, 59, 30]) #年(下2桁), 月, 日, 曜日, 時, 分, 秒
+rtc.write([20, 3, 31, 1, 23, 59, 40]) #年(下2桁), 月, 日, 曜日, 時, 分, 秒
 
 # 適当な時間を表示
 while true
@@ -26,7 +26,7 @@ while true
   t0 = sprintf("%02d-%02d-%02d", rtc.year - 2000, rtc.mon, rtc.mday)
   t1 = sprintf("%02d:%02d:%02d", rtc.hour, rtc.min, rtc.sec)
 
-  puts sprintf("#{t0} #{t1}")
+  puts sprintf("#{t0} #{rtc.wday} #{t1}")
   sleep 1
 end
 ```
