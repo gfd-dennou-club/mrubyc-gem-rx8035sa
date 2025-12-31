@@ -13,12 +13,11 @@ class RX8035SA
 
   # RTC からの読み込み. 戻り値は数字の配列
   def read()
-    a = @i2c.readfrom(0x32, 8)   # 8 バイト分読み込み
-    ctrl2 = a.shift
+    a = @i2c.read(0x32, 7, 0x00).bytes   # 8 バイト分読み込み
 
     @time = Array.new
     i = 0
-    [a[6], a[5], a[4], a[3], 0x3f & a[2], a[1], a[0], ctrl2].each do |num|
+    [a[6], a[5], a[4], a[3], 0x3f & a[2], a[1], a[0]].each do |num|
       @time[i] = sprintf('%02x', num)
       i += 1
     end    
@@ -49,19 +48,16 @@ class RX8035SA
 
   # 文字列で日付を戻す
   def str_date()
-    #read()
     return sprintf("%02d-%02d-%02d", @time[0], @time[1], @time[2]).to_s
   end
 
   # 文字列で時間を戻す
   def str_time()
-    #read()
     return sprintf("%02d:%02d:%02d", @time[4], @time[5], @time[6]).to_s
   end  
 
   # 文字列で日時を戻す
   def str_datetime()
-    #read()
     return sprintf("20%02d%02d%02d%02d%02d%02d", @time[0], @time[1], @time[2], @time[4], @time[5], @time[6]).to_s
   end
 
